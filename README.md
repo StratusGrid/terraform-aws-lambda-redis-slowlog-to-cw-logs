@@ -5,10 +5,11 @@ Areas Needing Improvement:
 - Make logic for checking and selecting logs group better
 - Make logic for checking and selecting logs stream better
 - Organize and segment code better
+- Better error handling
 
 ### Example Usage:
 ```
-module "cpu_credit_balance_lambda" {
+module "lambda_redis_slowlog_to_cw_logs_clustername" {
   source   = "StratusGrid/lambda-redis-slowlog-to-cw-logs/aws"
   version  = "2.0.0"
   # source   = "github.com/StratusGrid/terraform-aws-lambda-redis-slowlog-to-cw-logs"
