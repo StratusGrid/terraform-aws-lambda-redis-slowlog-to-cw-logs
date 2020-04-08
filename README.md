@@ -22,3 +22,19 @@ module "cpu_credit_balance_lambda" {
   schedule_expression = "rate(1 minute)" # singular when 1, plural when >1
 }
 ```
+
+### Example Logs Enties:
+With <<< descriptions
+```
+{
+    "id": 609648,                 <<< unique ID of Cmd
+    "timestamp": 1586322428,      <<< Timestamp in unix time
+    "duration": 37459,            <<< Time in microseconds (so, 37.459 ms)
+    "cmdArray": [                 <<< Cmd Array
+        "GET",
+        ":1:key:your-key"
+    ],
+    "client": "172.3.9.44:43150", <<< Client
+    "clientName": ""              <<< Client frindly name (if set)
+}
+```
