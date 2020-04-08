@@ -1,7 +1,6 @@
 variable "name" {
   description = "String to use as name for objects"
   type        = string
-  default     = ""
 }
 
 variable "input_tags" {
