@@ -1,6 +1,11 @@
 # terraform-aws-lambda-redis-slowlog-to-cw-logs
 This module will deploy a lambda function which will poll all redis_targets defined according to the schedule defined with schedule_expression
 
+Areas Needing Improvement:
+- Make logic for checking and selecting logs group better
+- Make logic for checking and selecting logs stream better
+- Organize and segment code better
+
 ### Example Usage:
 ```
 module "cpu_credit_balance_lambda" {
