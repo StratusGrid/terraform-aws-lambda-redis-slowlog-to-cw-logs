@@ -2,6 +2,7 @@
 This module will deploy a lambda function which will poll all redis_targets defined according to the schedule defined with schedule_expression
 
 Areas Needing Improvement:
+- Add a timeout for redis to connect (currently it just stays open till the function times out)
 - Make logic for checking and selecting logs group better
 - Make logic for checking and selecting logs stream better
 - Organize and segment code better
