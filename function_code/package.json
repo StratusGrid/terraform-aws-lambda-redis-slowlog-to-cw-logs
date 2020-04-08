@@ -1,0 +1,24 @@
+{
+  "name": "lambda-redis-slowlog-to-cw-logs",
+  "version": "1.0.0",
+  "description": "This Lambda will connect to Redis nodes and pull their slowlog entries, then push them to CW Logs",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.655.0",
+    "redis": "^3.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StratusGrid/terraform-aws-lambda-redis-slowlog-to-cw-logs.git"
+  },
+  "author": "Chris Hurst",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/StratusGrid/terraform-aws-lambda-redis-slowlog-to-cw-logs/issues"
+  },
+  "homepage": "https://github.com/StratusGrid/terraform-aws-lambda-redis-slowlog-to-cw-logs#readme"
+}
