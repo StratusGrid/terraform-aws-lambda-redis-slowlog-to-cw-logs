@@ -42,7 +42,7 @@ With <<< descriptions
         ":1:key:your-key"
     ],
     "client": {
-        "ip": "172.3.9.44",        <<< Client IP
+        "ip": "172.3.9.44",       <<< Client IP
         "port": "43696"           <<< Source Port for TCP Connection
     },
     "clientName": ""              <<< Client frindly name (if set)
