@@ -2,6 +2,7 @@
 This module will deploy a lambda function which will poll all redis_targets defined according to the schedule defined with schedule_expression
 
 Areas Needing Improvement:
+- Break client into IP and Port
 - Add a timeout for redis to connect (currently it just stays open till the function times out)
 - Make logic for checking and selecting logs group better
 - Make logic for checking and selecting logs stream better
@@ -44,4 +45,26 @@ With <<< descriptions
     "client": "172.3.9.44:43150", <<< Client
     "clientName": ""              <<< Client frindly name (if set)
 }
+```
+
+### Example Logs Insights Queries:
+Count of slow logs per minute:
+```
+stats count(*) as count by bin(1m)
+```
+
+Count of slowlog entries per unique query:
+```
+stats count(*) as count by cmdArray.0,cmdArray.1
+```
+
+Count of slowlog entries per minute for a specific key:
+```
+filter cmdArray.1 like /my-key-name/
+| stats count(*) as count by bin (60s)
+```
+
+Sort slowlog entries by duration, slowest at the top:
+```
+sort by duration desc
 ```
