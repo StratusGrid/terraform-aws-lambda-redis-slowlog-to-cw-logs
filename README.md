@@ -2,7 +2,6 @@
 This module will deploy a lambda function which will poll all redis_targets defined according to the schedule defined with schedule_expression
 
 Areas Needing Improvement:
-- Break client into IP and Port
 - Add a timeout for redis to connect (currently it just stays open till the function times out)
 - Make logic for checking and selecting logs group better
 - Make logic for checking and selecting logs stream better
@@ -42,7 +41,10 @@ With <<< descriptions
         "GET",
         ":1:key:your-key"
     ],
-    "client": "172.3.9.44:43150", <<< Client
+    "client": {
+        "ip": "172.3.9.44",        <<< Client IP
+        "port": "43696"           <<< Source Port for TCP Connection
+    },
     "clientName": ""              <<< Client frindly name (if set)
 }
 ```

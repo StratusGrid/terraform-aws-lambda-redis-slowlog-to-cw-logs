@@ -41,18 +41,27 @@ let getSlowlogs = async (client, maxAge, slowlogGetLimit) => {
       let filteredObjectsArray = []
       await asyncForEach(res, async (slowlogArray) => {
         if(slowlogArray[1] >= maxAge){
+          // break client into an object with ip and port keys
+          let clientRegexGrouper = /(?<ip>.*?):(?<port>.*)/
+          const clientKeys = slowlogArray[4].match(clientRegexGrouper)
+          const clientObject = {
+            ip:clientKeys.groups.ip,
+            port:clientKeys.groups.port
+          }
+
+          // create an object with all fields and push it into the array
           filteredObjectsArray.push(
             {
               id:slowlogArray[0],
               timestamp:slowlogArray[1],
               duration:slowlogArray[2],
               cmdArray:slowlogArray[3],
-              client:slowlogArray[4],
+              client:clientObject,
               clientName:slowlogArray[5]
             }
           )
         }
-        // if it's older than maxAge, log
+        // if it's older than maxAge, log it to the lambda cloudwatch logs
         else {
           console.log("TimeStamp too old for CloudWatch Logs Batch:")
           console.log({
@@ -176,7 +185,7 @@ exports.handler = async function (event, context, callback) { //eslint-disable-l
     }
     // otherwise log that there were no logs which satisfied constraints
     else {
-      console.log('No slowlog entries in last 24hr')
+      console.log('No new slowlog entries since last run')
     }
 
     // close the client connection
