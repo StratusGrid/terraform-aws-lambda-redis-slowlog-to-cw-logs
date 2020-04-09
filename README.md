@@ -12,7 +12,7 @@ Areas Needing Improvement:
 ```
 module "lambda_redis_slowlog_to_cw_logs_clustername" {
   source   = "StratusGrid/lambda-redis-slowlog-to-cw-logs/aws"
-  version  = "1.0.0"
+  version  = "1.1.0"
   # source   = "github.com/StratusGrid/terraform-aws-lambda-redis-slowlog-to-cw-logs"
 
   redis_targets = [
