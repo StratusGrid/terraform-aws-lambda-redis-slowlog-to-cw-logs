@@ -3,6 +3,7 @@ This module will deploy a lambda function which will poll all redis_targets defi
 
 Areas Needing Improvement:
 - Add a timeout for redis to connect (currently it just stays open till the function times out)
+- Add server name as key in log object (can be used for metrics and filtering more easily this way)
 - Make logic for checking and selecting logs group better
 - Make logic for checking and selecting logs stream better
 - Organize and segment code better
