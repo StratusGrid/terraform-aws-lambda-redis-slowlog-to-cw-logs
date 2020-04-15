@@ -71,3 +71,18 @@ Sort slowlog entries by duration, slowest at the top:
 ```
 sort by duration desc
 ```
+
+Average duration of requests per key for time period:
+```
+stats avg(duration) as avg by cmdArray.0,cmdArray.1 | sort by avg desc
+```
+
+Total time spent in slowlog entries for all servers for time period by key:
+```
+stats sum(duration) as sum by cmdArray.0,cmdArray.1 | sort by sum desc
+```
+
+Total time spent per monitored server for time period:
+```
+stats sum(duration) by @logStream
+```
