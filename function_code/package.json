@@ -4,7 +4,7 @@
   "description": "This Lambda will connect to Redis nodes and pull their slowlog entries, then push them to CW Logs",
   "main": "index.js",
   "dependencies": {
-    "aws-sdk": "^2.655.0",
+    "aws-sdk": "^2.814.0",
     "redis": "^3.0.2"
   },
   "devDependencies": {},
