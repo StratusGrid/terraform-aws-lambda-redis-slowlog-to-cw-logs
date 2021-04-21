@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "aws-sdk": "^2.655.0",
-    "redis": "^3.0.2"
+    "redis": "^3.1.0"
   },
   "devDependencies": {},
   "scripts": {
