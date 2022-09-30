@@ -54,14 +54,14 @@ resource "aws_lambda_function" "function" {
   lifecycle {
     ignore_changes = [last_modified]
   }
-  tags = var.input_tags
+  tags = local.common_tags
 
 }
 
 #Role to attach policy to Function
 resource "aws_iam_role" "function_role" {
   name = var.name
-  tags = var.input_tags
+  tags = local.common_tags
 
   assume_role_policy = <<EOF
 {
@@ -165,6 +165,6 @@ resource "aws_cloudwatch_log_group" "log_group" {
 
   retention_in_days = var.cloudwatch_log_retention_days
 
-  tags = var.input_tags
+  tags = local.common_tags
 }
 
