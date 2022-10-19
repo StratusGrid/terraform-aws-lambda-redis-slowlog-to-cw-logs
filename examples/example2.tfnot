@@ -1,0 +1,14 @@
+{
+    "id": 609648,                 <<< unique ID of Cmd
+    "timestamp": 1586322428,      <<< Timestamp in unix time
+    "duration": 37459,            <<< Time in microseconds (so, 37.459 ms)
+    "cmdArray": [                 <<< Cmd Array
+        "GET",
+        ":1:key:your-key"
+    ],
+    "client": {
+        "ip": "172.3.9.44",       <<< Client IP
+        "port": "43696"           <<< Source Port for TCP Connection
+    },
+    "clientName": ""              <<< Client friendly name (if set)
+}

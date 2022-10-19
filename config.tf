@@ -9,46 +9,47 @@ resource "aws_cloudwatch_event_rule" "event" {
 
 #Target to direct event at function
 resource "aws_cloudwatch_event_target" "function_target" {
-  rule = aws_cloudwatch_event_rule.event.name
+  rule      = aws_cloudwatch_event_rule.event.name
   target_id = var.name
-  arn = aws_lambda_function.function.arn
+  arn       = aws_lambda_function.function.arn
 }
 
 #Permission to allow event trigger
 resource "aws_lambda_permission" "allow_cloudwatch_event_trigger" {
-  statement_id = "TrustCWEToInvokeMyLambdaFunction"
-  action = "lambda:InvokeFunction"
+  statement_id  = "TrustCWEToInvokeMyLambdaFunction"
+  action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.function.function_name
-  principal = "events.amazonaws.com"
-  source_arn = aws_cloudwatch_event_rule.event.arn
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.event.arn
 }
 
 #Automatic packaging of code
 data "archive_file" "function_code" {
-  type = "zip"
-  source_dir = "${path.module}/function_code"
+  type        = "zip"
+  source_dir  = "${path.module}/function_code"
   output_path = "${path.module}/function_code_zipped/function_code.zip"
 }
 
 #Function to process event
+#tfsec:ignore:aws-lambda-enable-tracing --ignore warning on Enabling tracing
 resource "aws_lambda_function" "function" {
-  filename = data.archive_file.function_code.output_path
+  filename         = data.archive_file.function_code.output_path
   source_code_hash = filebase64sha256(data.archive_file.function_code.output_path)
-  function_name = var.name
-  role = aws_iam_role.function_role.arn
-  handler = "index.handler"
-  runtime = "nodejs12.x"
-  timeout = var.timeout_sec
-  memory_size = var.memory_size
+  function_name    = var.name
+  role             = aws_iam_role.function_role.arn
+  handler          = "index.handler"
+  runtime          = "nodejs12.x"
+  timeout          = var.timeout_sec
+  memory_size      = var.memory_size
   environment {
     variables = {
-      REDIS_TARGETS = join(",", var.redis_targets)
-      TARGET_LOG_GROUP = var.target_log_group
+      REDIS_TARGETS     = join(",", var.redis_targets)
+      TARGET_LOG_GROUP  = var.target_log_group
       SLOWLOG_GET_LIMIT = var.slowlog_get_limit
     }
   }
   vpc_config {
-    subnet_ids = var.subnet_ids
+    subnet_ids         = var.subnet_ids
     security_group_ids = var.security_group_ids
   }
   lifecycle {
@@ -83,10 +84,10 @@ EOF
 
 #Default policy for Lambda to be executed and put logs in Cloudwatch
 resource "aws_iam_role_policy" "function_policy_default" {
-name = "${var.name}-default-policy"
-role = aws_iam_role.function_role.id
+  name = "${var.name}-default-policy"
+  role = aws_iam_role.function_role.id
 
-policy = <<EOF
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -127,10 +128,10 @@ EOF
 
 #Policy for additional Permissions for Lambda Execution
 resource "aws_iam_role_policy" "function_policy" {
-name = var.name
-role = aws_iam_role.function_role.id
+  name = var.name
+  role = aws_iam_role.function_role.id
 
-policy = <<EOF
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -160,6 +161,7 @@ EOF
 }
 
 #Cloudwatch Log Group for Function
+#tfsec:ignore:aws-cloudwatch-log-group-customer-key -- Ignores warning on CMK encryption of CloudWatch Log Groups
 resource "aws_cloudwatch_log_group" "log_group" {
   name = "/aws/lambda/${aws_lambda_function.function.function_name}"
 
@@ -167,4 +169,3 @@ resource "aws_cloudwatch_log_group" "log_group" {
 
   tags = local.common_tags
 }
-
