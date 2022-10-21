@@ -29,8 +29,8 @@ module "lambda_redis_slowlog_to_cw_logs_clustername" {
   memory_size         = 128
   input_tags          = merge(local.common_tags, {})
   target_log_group    = "/aws/elasticache/redis/slowlogs" # This will be automatically created when ran if it doesn't already exist
-  subnet_ids          = ["subnet-fjf4b1b","subnet-fgtyuc1e"]
-  security_group_ids  = ["sg-fjusg9d32"] # Needs to be able to reach all redis targets and internet via NAT GW
+  subnet_ids          = ["subnet-00000","subnet-00000"]
+  security_group_ids  = ["sg-00000"] # Needs to be able to reach all redis targets and internet via NAT GW
   schedule_expression = "rate(1 minute)" # singular when 1, plural when >1
 }
 ```
@@ -46,7 +46,7 @@ module "lambda_redis_slowlog_to_cw_logs_clustername" {
         ":1:key:your-key"
     ],
     "client": {
-        "ip": "172.3.9.44",       <<< Client IP
+        "ip": "172.1.1.1",       <<< Client IP
         "port": "43696"           <<< Source Port for TCP Connection
     },
     "clientName": ""              <<< Client friendly name (if set)
@@ -99,6 +99,7 @@ stats sum(duration) by @logStream
 | [aws_iam_role.function_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.function_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.function_policy_default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_kms_key.log_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 | [aws_lambda_function.function](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function) | resource |
 | [aws_lambda_permission.allow_cloudwatch_event_trigger](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_permission) | resource |
 
@@ -108,6 +109,7 @@ stats sum(duration) by @logStream
 |------|-------------|------|---------|:--------:|
 | <a name="input_cloudwatch_log_retention_days"></a> [cloudwatch\_log\_retention\_days](#input\_cloudwatch\_log\_retention\_days) | Number of days for retention period of Lambda logs | `string` | `"30"` | no |
 | <a name="input_input_tags"></a> [input\_tags](#input\_input\_tags) | Map of tags to apply to resources | `map(string)` | <pre>{<br>  "Developer": "StratusGrid",<br>  "Provisioner": "Terraform"<br>}</pre> | no |
+| <a name="input_kms_log_key_deletion_window"></a> [kms\_log\_key\_deletion\_window](#input\_kms\_log\_key\_deletion\_window) | Duration (in day) of kms key created, default is 30 | `number` | n/a | yes |
 | <a name="input_memory_size"></a> [memory\_size](#input\_memory\_size) | MB of memory function can use | `number` | `128` | no |
 | <a name="input_name"></a> [name](#input\_name) | String to use as name for objects | `string` | n/a | yes |
 | <a name="input_redis_targets"></a> [redis\_targets](#input\_redis\_targets) | list of redis hostnames which should have their slowlog polled | `list(string)` | n/a | yes |

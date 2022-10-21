@@ -12,7 +12,7 @@ module "lambda_redis_slowlog_to_cw_logs_clustername" {
   memory_size         = 128
   input_tags          = merge(local.common_tags, {})
   target_log_group    = "/aws/elasticache/redis/slowlogs" # This will be automatically created when ran if it doesn't already exist
-  subnet_ids          = ["subnet-fjf4b1b","subnet-fgtyuc1e"]
-  security_group_ids  = ["sg-fjusg9d32"] # Needs to be able to reach all redis targets and internet via NAT GW
+  subnet_ids          = ["subnet-00000","subnet-00000"]
+  security_group_ids  = ["sg-00000"] # Needs to be able to reach all redis targets and internet via NAT GW
   schedule_expression = "rate(1 minute)" # singular when 1, plural when >1
 }

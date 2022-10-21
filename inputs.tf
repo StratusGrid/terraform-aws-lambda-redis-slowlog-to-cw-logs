@@ -63,3 +63,8 @@ variable "target_log_group" {
   description = "Name of log group to use as a destination for redis slowlogs"
   type        = string
 }
+
+variable "kms_log_key_deletion_window" {
+  description = "Duration (in day) of kms key created, default is 30"
+  type        = number
+}
