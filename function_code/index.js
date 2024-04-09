@@ -89,7 +89,7 @@ exports.handler = async function (event, context, callback) {
 
   // cloudwatch logs require you to submit no more than 24hr in a single batch, we cut 60sec off of that as a margin
   const cloudwatchLogCutoffTimestamp = Math.round(
-    (new Date().getTime() - 24 * 60 * 60 * 1000) / 1000 - 60
+    (new Date().getTime() - 24 * 60 * 60 * 1000) / 1000 - 60,
   );
 
   await asyncForEach(redisTargets, async (redisTarget) => {
@@ -108,10 +108,10 @@ exports.handler = async function (event, context, callback) {
       slowLogs = await getSlowlogs(
         client,
         cloudwatchLogCutoffTimestamp,
-        slowlogGetLimit
+        slowlogGetLimit,
       );
       console.log(
-        "Retrieved " + slowLogs.length + " slowlog entries from " + redisUrl
+        "Retrieved " + slowLogs.length + " slowlog entries from " + redisUrl,
       );
     } catch {
       console.log("Failed to retrieve slowlog entries from " + redisUrl);
@@ -198,7 +198,7 @@ exports.handler = async function (event, context, callback) {
           " slowlogs into " +
           logGroupName +
           "/" +
-          redisTarget
+          redisTarget,
       );
       const putLogsResult = await cloudwatchlogs.putLogEvents(params).promise();
       console.log(putLogsResult);
